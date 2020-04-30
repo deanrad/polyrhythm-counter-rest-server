@@ -1,9 +1,9 @@
-const { trigger, query, listen: on } = require("polyrhythm");
+const { trigger, query, filter, listen: on } = require("polyrhythm");
 
 const initialState = { count: 0 };
 const state = initialState;
 
-on("tick", () => {
+filter("tick", () => {
   state.count += 1;
   console.log(`Ticked ${state.count} times so far! 🤯`);
 });
