@@ -10,16 +10,29 @@ on("tick", () => {
 
 const intervalId = setInterval(() => {
   trigger("tick");
-  state.count >= 50 && clearInterval(intervalId);
+  state.count >= 500 && clearInterval(intervalId);
 }, 2000);
 
 // Run an endpoint
-const express = require("express");
-const app = express();
-const path = require("path");
-app.use(express.static(path.join(__dirname, "../public")));
-app.get("/", function(req, res) {
-  res.write(`The count is ...`);
-  res.end(); //end the response
+const sstatic = require("node-static");
+const fileServer = new sstatic.Server(
+  require("path").join(__dirname, "public")
+);
+
+const app = require("http").createServer((request, response) => {
+  fileServer.serve(request, response);
 });
+const io = require("socket.io").listen(app, { log: false });
+
 app.listen(8080);
+
+// Add websockets
+io.on("connection", client => {
+  const clientId = client.id.substr(0, 6);
+  console.log(`${clientId}: Got a client connection!`);
+  client.emit("event", { type: "server/ack", payload: null });
+
+  client.on("disconnect", () => {
+    console.log(`${clientId}: Goodbye!`);
+  });
+});
