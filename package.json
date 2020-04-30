@@ -1,12 +1,16 @@
 {
-  "name": "node-http-server",
+  "name": "polyrhythm-counter-rest-server",
   "version": "1.0.0",
-  "description": "Node.js example server starter project",
+  "description": "",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "polyrhythm": "1.0.0",
+    "react": "16.13.1",
+    "rxjs": "6.5.5"
+  },
   "devDependencies": {
     "nodemon": "1.18.4"
   },
