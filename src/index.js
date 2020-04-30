@@ -12,11 +12,14 @@ const intervalId = setInterval(() => {
   trigger("tick");
   state.count >= 50 && clearInterval(intervalId);
 }, 2000);
+
 // Run an endpoint
-var http = require("http");
-http
-  .createServer(function(req, res) {
-    res.write(`The count is currently ${state.count}`); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
+const express = require("express");
+const app = express();
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", function(req, res) {
+  res.write(`The count is ...`);
+  res.end(); //end the response
+});
+app.listen(8080);
