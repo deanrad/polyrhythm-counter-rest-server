@@ -1,5 +1,5 @@
 {
-  "name": "polyrhythm-counter-rest-server",
+  "name": "polyrhythm-counter-websocket-server",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",

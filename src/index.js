@@ -1,4 +1,4 @@
-const { trigger, listen: on } = require("polyrhythm");
+const { trigger, query, listen: on } = require("polyrhythm");
 
 const initialState = { count: 0 };
 const state = initialState;
@@ -32,7 +32,14 @@ io.on("connection", client => {
   console.log(`${clientId}: Got a client connection!`);
   client.emit("event", { type: "server/ack", payload: null });
 
+  // each new client subscribes/unsubs to ticks separately
+  const ticksSub = query("tick").subscribe(event => {
+    console.log(`New tick to ${clientId}`);
+    client.emit("event", event);
+  });
+
   client.on("disconnect", () => {
     console.log(`${clientId}: Goodbye!`);
+    ticksSub.unsubscribe();
   });
 });
